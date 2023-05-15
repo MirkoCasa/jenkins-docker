@@ -1,0 +1,27 @@
+services:
+  mongodb:
+    image: mongo
+    container_name: mongodb
+    restart: always
+    ports:
+      - '27017:27017'
+    volumes:
+      - mongodb-data:/data/db
+      - mongodb-config:/data/configdb
+
+  spring-app:
+    build: /jenkins-docker
+    image: jenkins-docker
+    container_name: jenkins-docker-app
+    restart: always
+    ports:
+      - '8081:8081'
+    depends_on:
+      - mongodb
+    volumes:
+      - jenkins-docker-app-data:/var/www/html
+
+volumes:
+  mongodb-data:
+  mongodb-config:
+  jenkins-docker-app-data:
